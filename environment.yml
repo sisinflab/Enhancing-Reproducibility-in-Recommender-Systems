@@ -1,0 +1,16 @@
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - cython                # and any other build deps
+  - python >=3.9,<3.10    # or whatever version
+  - jupyterlab >=3.4.4,<4 # or whatever version
+  - pip
+  - pip:
+    - -f https://data.pyg.org/whl/torch-2.1.0+cu118.html
+    sparsesvd==0.2.0
+    torch_geometric
+    torch-scatter
+    torch_sparse
+    torch_cluster
+    torch_spline_conv
