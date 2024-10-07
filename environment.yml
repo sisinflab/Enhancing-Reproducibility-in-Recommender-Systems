@@ -3,13 +3,13 @@ channels:
   - nodefaults
 dependencies:
   - cython                # and any other build deps
+  - numpy
   - python >=3.9,<3.10    # or whatever version
   - jupyterlab >=3.4.4,<4 # or whatever version
   - pip
   - pip:
     - Cython
     - hyperopt
-    - numpy
     - tensorflow
     - tqdm
     - scipy
