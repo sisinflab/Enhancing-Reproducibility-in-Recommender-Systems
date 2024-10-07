@@ -9,7 +9,7 @@ dependencies:
   - pip
   - pip:
     - Cython
-    - hyperopt
+    - hyperopt==0.2.5
     - tensorflow
     - tqdm
     - scipy
