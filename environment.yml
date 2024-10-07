@@ -7,6 +7,18 @@ dependencies:
   - jupyterlab >=3.4.4,<4 # or whatever version
   - pip
   - pip:
+    - Cython
+    - hyperopt
+    - numpy
+    - torch==1.13.0+cu116
+    - tensorflow
+    - tqdm
+    - scipy
+    - pandas
+    - Pillow
+    - PyYAML
+    - scikit_learn
+    - gdown
     - -f https://data.pyg.org/whl/torch-2.1.0+cu118.html
     - sparsesvd==0.2.0
     - torch_geometric
