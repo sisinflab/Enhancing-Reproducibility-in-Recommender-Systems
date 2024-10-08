@@ -8,6 +8,7 @@ dependencies:
   - jupyterlab >=3.4.4,<4 # or whatever version
   - pip
   - pip:
+    - --extra-index-url https://download.pytorch.org/whl/cu102
     - Cython
     - hyperopt==0.2.5
     - tensorflow
