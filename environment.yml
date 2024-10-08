@@ -18,6 +18,7 @@ dependencies:
     - PyYAML
     - scikit_learn
     - gdown
+    - torch==1.13.0+cu116
     - -f https://data.pyg.org/whl/torch-2.1.0+cu118.html
     - sparsesvd==0.2.0
     - torch_geometric
