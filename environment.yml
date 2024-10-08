@@ -4,7 +4,7 @@ channels:
 dependencies:
   - cython                # and any other build deps
   - numpy
-  - python >=3.9,<3.10    # or whatever version
+  - python >=3.8,<3.9    # or whatever version
   - jupyterlab >=3.4.4,<4 # or whatever version
   - pip
   - pip:
