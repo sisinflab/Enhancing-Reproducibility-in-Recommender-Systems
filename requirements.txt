@@ -2,7 +2,7 @@
 Cython
 hyperopt
 numpy
-torch==1.13.0+cu116
+torch==1.13.0
 tensorflow
 tqdm
 scipy
