@@ -15,27 +15,15 @@ experiment:
   models:
     external.NGCF:
       meta:
-        hyper_opt_alg: tpe
-        hyper_max_evals: 20
         verbose: True
-        save_weights: False
-        validation_rate: 10
-        validation_metric: Recall@20
-        restore: False
-        write_best_iterations: True
-      lr: [loguniform, -9.21034037198, -5.29831736655]
-      epochs: 400
+      lr: 0.001313040990458504
+      epochs: 150
       factors: 64
       batch_size: 128
-      l_w: [loguniform, -11.512925465, 4.60517018599]
-      n_layers: [choice, [1, 2, 3, 4]]
+      l_w: 0.007471352712353916
+      n_layers: 1
       weight_size: 64
-      node_dropout: [loguniform, -2.30258509299, -0.22314355131]
-      message_dropout: [loguniform, -2.30258509299, -0.22314355131]
+      node_dropout: 0.6222126221705062
+      message_dropout: 0.2768938386628866
       normalize: True
       seed: 42
-      early_stopping:
-        patience: 5
-        mode: auto
-        monitor: Recall@20
-        verbose: True

@@ -16,6 +16,4 @@ experiment:
       meta:
         verbose: True
         save_recs: True
-        hyper_max_evals: 20
-        hyper_opt_alg: tpe
-      l2_norm: [loguniform, 2.72, 16]
+      l2_norm: 212.98774633994572

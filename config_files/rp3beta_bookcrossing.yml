@@ -19,7 +19,7 @@ experiment:
         hyper_opt_alg: tpe
         verbose: True
         save_recs: True
-      neighborhood: [ quniform, 5, 1000, 1]
-      alpha: [uniform, 0, 2]
-      beta: [uniform, 0, 2]
-      normalize_similarity: [True, False]
+      neighborhood: 777
+      alpha: 0.5663562161452378
+      beta: 0.001085447926739258
+      normalize_similarity: True

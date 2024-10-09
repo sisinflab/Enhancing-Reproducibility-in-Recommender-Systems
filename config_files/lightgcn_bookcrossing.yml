@@ -1,23 +1,26 @@
 experiment:
-  backend: tensorflow
-  dataset: bookcrossing
+  backend: pytorch
   data_config:
     strategy: fixed
     train_path: ../data/{0}/train.tsv
     validation_path: ../data/{0}/validation.tsv
     test_path: ../data/{0}/test.tsv
+  dataset: bookcrossing
   top_k: 20
   evaluation:
-    cutoffs: 20
-    simple_metrics: [nDCG, Recall]
+    cutoffs: [20]
+    simple_metrics: [Recall, nDCG]
   gpu: 0
   external_models_path: ../external/models/__init__.py
   models:
-    UserKNN:
+    external.LightGCN:
       meta:
-        hyper_max_evals: 20
-        hyper_opt_alg: tpe
-        save_recs: True
         verbose: True
-      neighbors: 360
-      similarity: cosine
+      lr: 0.001
+      epochs: 160
+      factors: 64
+      batch_size: 256
+      l_w: 0.00128839517469060
+      n_layers: 4
+      normalize: True
+      seed: 42

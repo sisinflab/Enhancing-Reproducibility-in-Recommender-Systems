@@ -18,5 +18,5 @@ experiment:
         hyper_opt_alg: tpe
         save_recs: True
         verbose: True
-      neighbors: [ quniform, 5, 1000, 1 ]
-      similarity: [cosine, euclidean, dot]
+      neighbors: 146
+      similarity: cosine

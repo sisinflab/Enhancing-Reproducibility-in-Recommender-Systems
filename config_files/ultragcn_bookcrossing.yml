@@ -3,8 +3,9 @@ experiment:
   data_config:
     strategy: fixed
     train_path: ../data/{0}/train.tsv
+    validation_path: ../data/{0}/validation.tsv
     test_path: ../data/{0}/test.tsv
-  dataset: yelp-2018
+  dataset: bookcrossing
   top_k: 20
   evaluation:
     cutoffs: [20]
@@ -12,25 +13,34 @@ experiment:
   gpu: 0
   external_models_path: ../external/models/__init__.py
   models:
-    external.LightGCN:
+    external.UltraGCN:
       meta:
-        hyper_opt_alg: grid
+        hyper_opt_alg: tpe
+        hyper_max_evals: 20
         verbose: True
         save_weights: False
-        validation_rate: 20
+        validation_rate: 5
         validation_metric: Recall@20
         restore: False
         write_best_iterations: True
-      lr: 0.001
-      epochs: 1000
+      lr: 1e-4
+      epochs: 205
       factors: 64
-      batch_size: 2048
-      l_w: 1e-4
-      n_layers: 3
-      normalize: True
+      batch_size: 128
+      g: 1e-4
+      l: 2.1590977284940767
+      w1: 0.4071845141372458
+      w2: 2.674735729193082e-06
+      w3: 0.11655266791027195
+      w4: 0.05001575677944944
+      ii_n_n: 10
+      n_n: 300
+      n_w: 300
+      s_s_p: False
+      i_w: 1e-4
       seed: 42
       early_stopping:
-        patience: 5
+        patience: 15
         mode: auto
         monitor: Recall@20
         verbose: True
