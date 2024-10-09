@@ -15,14 +15,7 @@ experiment:
   models:
     external.UltraGCN:
       meta:
-        hyper_opt_alg: tpe
-        hyper_max_evals: 20
         verbose: True
-        save_weights: False
-        validation_rate: 5
-        validation_metric: Recall@20
-        restore: False
-        write_best_iterations: True
       lr: 1e-4
       epochs: 205
       factors: 64
