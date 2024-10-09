@@ -16,7 +16,7 @@ experiment:
     external.UltraGCN:
       meta:
         verbose: True
-        save_weights: False
+        save_weights: True
         validation_rate: 10
         validation_metric: Recall@20
         restore: False
