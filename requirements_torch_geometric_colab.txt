@@ -5,3 +5,4 @@ torch-scatter
 torch_sparse
 torch_cluster
 torch_spline_conv
+hyperopt=0.2.5
