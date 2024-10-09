@@ -16,7 +16,11 @@ experiment:
     external.NGCF:
       meta:
         verbose: True
-        validation_rate: 100
+        save_weights: False
+        validation_rate: 10
+        validation_metric: Recall@20
+        restore: False
+        write_best_iterations: True
       lr: 0.001313040990458504
       epochs: 100
       factors: 64
@@ -28,3 +32,8 @@ experiment:
       message_dropout: 0.2768938386628866
       normalize: True
       seed: 42
+      early_stopping:
+        patience: 5
+        mode: auto
+        monitor: Recall@20
+        verbose: True
