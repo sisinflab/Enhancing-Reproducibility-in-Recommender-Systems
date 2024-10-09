@@ -15,6 +15,7 @@ experiment:
     external.NGCF:
       meta:
         verbose: True
+        validation_rate: 400
       lr: 0.0001
       epochs: 400
       factors: 64

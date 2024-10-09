@@ -15,6 +15,7 @@ experiment:
     external.UltraGCN:
       meta:
         verbose: True
+        validation_rate: 2000
       lr: 1e-3
       epochs: 2000
       factors: 64

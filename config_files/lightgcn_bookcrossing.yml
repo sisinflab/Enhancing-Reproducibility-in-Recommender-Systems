@@ -16,6 +16,7 @@ experiment:
     external.LightGCN:
       meta:
         verbose: True
+        validation_rate: 160
       lr: 0.001
       epochs: 160
       factors: 64
