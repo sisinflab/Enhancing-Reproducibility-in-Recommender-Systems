@@ -15,5 +15,5 @@ This is the official GitHub repository for the lecture "_Enhancing Reproducibili
 * **Main topics:** reproducibility, replicability, recommender systems
 
 ### Lecture resources
-* **Slides:** [link](https://github.com/sisinflab/Enhancing-Reproducibility-in-Recommender-Systems/master/slide.pdf)
+* **Slides:** [link](https://github.com/sisinflab/Enhancing-Reproducibility-in-Recommender-Systems/blob/main/slides.pdf)
 * **Google Colab:** [link](https://colab.research.google.com/drive/1mo1Qm4emk0gipAuOljD4rB1gTe-6tGVJ)
