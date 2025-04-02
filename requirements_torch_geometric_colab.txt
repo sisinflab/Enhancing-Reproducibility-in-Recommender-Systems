@@ -1,6 +1,6 @@
 -f https://data.pyg.org/whl/torch-2.4.0+cu121.html
 Cython
-scipy==1.11.4
+git+https://github.com/scne/similaripy.git@patch-1
 #sparsesvd==0.2.0
 torch_geometric
 torch-scatter
