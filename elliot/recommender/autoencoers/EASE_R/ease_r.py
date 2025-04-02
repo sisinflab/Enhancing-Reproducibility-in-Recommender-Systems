@@ -8,15 +8,19 @@ __author__ = 'Vito Walter Anelli, Claudio Pomo'
 __email__ = 'vitowalter.anelli@poliba.it, claudio.pomo@poliba.it'
 
 import time
-
-import scipy
+from operator import itemgetter
 
 import numpy as np
+import scipy
 from sklearn.utils.extmath import safe_sparse_dot
+from tqdm import tqdm
+import torch
 
 from elliot.recommender.base_recommender_model import BaseRecommenderModel
 from elliot.recommender.base_recommender_model import init_charger
 from elliot.recommender.recommender_utils_mixin import RecMixin
+
+from similaripy import similarity
 
 
 class EASER(RecMixin, BaseRecommenderModel):
@@ -49,7 +53,15 @@ class EASER(RecMixin, BaseRecommenderModel):
         return predictions_top_k_val, predictions_top_k_test
 
     def get_single_recommendation(self, mask, k):
-        return {u: self.get_user_predictions(u, mask, k) for u in self._data.train_dict.keys()}
+        # return {u: self.get_user_predictions(u, mask, k) for u in self._data.train_dict.keys()}
+        recs = {}
+        for i in tqdm(range(0, len(self._data.train_dict.keys()), 1024), desc="Processing batches",
+                      total=len(self._data.train_dict.keys()) // 1024 + (1 if len(self._data.train_dict.keys()) % 1024 != 0 else 0)):
+            batch = list(self._data.train_dict.keys())[i:i + 1024]
+            mat = self.get_user_recs_batch(batch, mask, k)
+            proc_batch = dict(zip(batch, mat))
+            recs.update(proc_batch)
+        return recs
 
     def get_user_predictions(self, user_id, mask, top_k=10):
         user_id = self._data.public_users.get(user_id)
@@ -68,6 +80,16 @@ class EASER(RecMixin, BaseRecommenderModel):
         local_top_k = real_values.argsort()[::-1]
         return [(real_indices[item], real_values[item]) for item in local_top_k]
 
+    def get_user_recs_batch(self, u, mask, k):
+        u_index = itemgetter(*u)(self._data.public_users)
+        users_recs = np.where(mask[u_index, :], self._preds[u_index, :].toarray(), -np.inf)
+        index_ordered = np.argpartition(users_recs, -k, axis=1)[:, -k:]
+        value_ordered = np.take_along_axis(users_recs, index_ordered, axis=1)
+        local_top_k = np.take_along_axis(index_ordered, value_ordered.argsort(axis=1)[:, ::-1], axis=1)
+        value_sorted = np.take_along_axis(users_recs, local_top_k, axis=1)
+        mapper = np.vectorize(self._data.private_items.get)
+        return [[*zip(item, val)] for item, val in zip(mapper(local_top_k), value_sorted)]
+
     def train(self):
         if self._restore:
             return self.restore_weights()
@@ -77,13 +99,25 @@ class EASER(RecMixin, BaseRecommenderModel):
 
         self._train = self._data.sp_i_train_ratings
 
-        self._similarity_matrix = safe_sparse_dot(self._train.T, self._train, dense_output=True)
+        # self._similarity_matrix = safe_sparse_dot(self._train.T, self._train, dense_output=False)
+        self._similarity_matrix = similarity.dot_product(self._train.T, self._train,
+                                                         k=self._train.shape[0], format_output= 'csr')
+
 
         diagonal_indices = np.diag_indices(self._similarity_matrix.shape[0])
         item_popularity = np.ediff1d(self._train.tocsc().indptr)
-        self._similarity_matrix[diagonal_indices] = item_popularity + self._l2_norm
+        self._similarity_matrix.setdiag(item_popularity + self._l2_norm)
 
-        P = np.linalg.solve(self._similarity_matrix, np.eye(self._similarity_matrix.shape[0]))
+        if torch.cuda.is_available():
+            self.logger.info(f"Use CUDA for Inverse")
+            self._similarity_matrix = torch.tensor(data=self._similarity_matrix.todense(),
+                                                   dtype=torch.float32).cuda()
+            torch.cuda.synchronize()
+            P = torch.linalg.inv(self._similarity_matrix).cpu().numpy()
+            torch.cuda.empty_cache()
+        else:
+            self.logger.info(f"Classical Inverse")
+            P = np.linalg.inv(self._similarity_matrix.todense())
 
         self._similarity_matrix = P / (-np.diag(P))
 
@@ -92,6 +126,14 @@ class EASER(RecMixin, BaseRecommenderModel):
         end = time.time()
         self.logger.info(f"The similarity computation has taken: {end - start}")
 
-        self._preds = self._train.dot(self._similarity_matrix)
+        if torch.cuda.is_available():
+            sparse_train = torch.sparse_coo_tensor(self._train.nonzero(), self._train.data, self._train.shape).cuda()
+            self._similarity_matrix = torch.tensor(data=self._similarity_matrix,
+                                                   dtype=torch.float32).cuda()
+            self._preds = torch.sparse.mm(sparse_train, self._similarity_matrix).cpu().numpy()
+            self.logger.info(f"{type(self._preds)}")
+            torch.cuda.empty_cache()
+        else:
+            self._preds = safe_sparse_dot(self._train, scipy.sparse.csr_matrix(self._similarity_matrix)).tocsr()
 
         self.evaluate()
