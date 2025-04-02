@@ -1,5 +1,6 @@
 -f https://data.pyg.org/whl/torch-2.4.0+cu121.html
 Cython
+scipy==1.11.4
 #sparsesvd==0.2.0
 torch_geometric
 torch-scatter
@@ -8,4 +9,3 @@ torch_cluster
 torch_spline_conv
 hyperopt==0.2.5
 similaripy
-scipy==1.11.4
