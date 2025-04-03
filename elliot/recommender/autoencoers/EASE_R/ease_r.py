@@ -90,6 +90,17 @@ class EASER(RecMixin, BaseRecommenderModel):
         mapper = np.vectorize(self._data.private_items.get)
         return [[*zip(item, val)] for item, val in zip(mapper(local_top_k), value_sorted)]
 
+    def to_scipy_csr(sparse_tensor):
+        """Converts a PyTorch sparse tensor to a SciPy CSR matrix."""
+        if not sparse_tensor.is_coalesced():
+            sparse_tensor = sparse_tensor.coalesce()  # Ensure COO format is coalesced
+
+        indices = sparse_tensor.indices()
+        values = sparse_tensor.values()
+        shape = sparse_tensor.shape
+
+        return scipy.sparse.csr_matrix((values.numpy(), (indices[0].numpy(), indices[1].numpy())), shape=shape)
+
     def train(self):
         if self._restore:
             return self.restore_weights()
@@ -130,7 +141,8 @@ class EASER(RecMixin, BaseRecommenderModel):
             sparse_train = torch.sparse_coo_tensor(self._train.nonzero(), self._train.data, self._train.shape).cuda()
             self._similarity_matrix = torch.tensor(data=self._similarity_matrix,
                                                    dtype=torch.float32).cuda()
-            self._preds = torch.sparse.mm(sparse_train, self._similarity_matrix).cpu().to_sparse_csr()
+            self._preds = torch.sparse.mm(sparse_train, self._similarity_matrix).cpu().to_sparse_coo()
+            self._preds = to_scipy_csr(self._preds)
             self.logger.info(f"{type(self._preds)}")
             torch.cuda.empty_cache()
         else:
