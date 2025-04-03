@@ -90,7 +90,7 @@ class EASER(RecMixin, BaseRecommenderModel):
         mapper = np.vectorize(self._data.private_items.get)
         return [[*zip(item, val)] for item, val in zip(mapper(local_top_k), value_sorted)]
 
-    def to_scipy_csr(sparse_tensor):
+    def to_scipy_csr(self, sparse_tensor):
         """Converts a PyTorch sparse tensor to a SciPy CSR matrix."""
         if not sparse_tensor.is_coalesced():
             sparse_tensor = sparse_tensor.coalesce()  # Ensure COO format is coalesced
