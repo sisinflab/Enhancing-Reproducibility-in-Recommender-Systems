@@ -130,7 +130,7 @@ class EASER(RecMixin, BaseRecommenderModel):
             sparse_train = torch.sparse_coo_tensor(self._train.nonzero(), self._train.data, self._train.shape).cuda()
             self._similarity_matrix = torch.tensor(data=self._similarity_matrix,
                                                    dtype=torch.float32).cuda()
-            self._preds = torch.sparse.mm(sparse_train, self._similarity_matrix).cpu().numpy()
+            self._preds = torch.sparse.mm(sparse_train, self._similarity_matrix).cpu().to_sparse_csr()
             self.logger.info(f"{type(self._preds)}")
             torch.cuda.empty_cache()
         else:
