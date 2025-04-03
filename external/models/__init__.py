@@ -21,3 +21,4 @@ for _backend in sys.modules["external"].backend:
         #from .gfcf import GFCF
         from .sgl import SGL
         from .simgcl import SimGCL
+        from .svd_gcn import SVDGCN
