@@ -17,4 +17,4 @@ experiment:
       meta:
         verbose: True
         save_recs: True
-      l2_norm: 97.97026620421359
+      l2_norm: [loguniform, 2.72, 16]
