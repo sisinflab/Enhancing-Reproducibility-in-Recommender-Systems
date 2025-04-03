@@ -15,6 +15,8 @@ experiment:
   models:
     EASER:
       meta:
+        hyper_max_evals: 20
+        hyper_opt_alg: tpe
         verbose: True
         save_recs: True
       l2_norm: [loguniform, 2.72, 16]
