@@ -1,10 +1,10 @@
-# Enhancing Reproducibility in Recommender Systems: A Path Towards Scientific Integrity and Effective Implementation
+# Enhancing Reproducibility and Replicability in Information Retrieval: A Path Towards Scientific Integrity and Effective Research
 
-This is the official GitHub repository for the lecture "_Enhancing Reproducibility in Recommender Systems: A Path Towards Scientific Integrity and Effective Implementation_", hosted at the [2024 ACM RecSys Summer School](https://acmrecsys.github.io/rsss2024/) in Bari (Italy).
+This is the official GitHub repository for the lecture "_Enhancing Reproducibility and Replicability in Information Retrieval: A Path Towards Scientific Integrity and Effective Research_", hosted as Tutorial at [ECIR 2025](https://ecir2025.eu/) in Lucca (Italy).
 
 <div>
-  <img src="https://recsys.acm.org/wp-content/uploads/2023/11/RecSysBanner_1000_180.png" alt="SisInfLab" width="600">
-  <img src="https://recsys.acm.org/wp-content/uploads/2020/07/Recsys-OG.png" alt="recsys" width="200">
+  <img src="https://ecir2025.eu/wp-content/uploads/2024/03/Lucca-TorreGuelfa.jpg" alt="SisInfLab" width="600">
+  <img src="https://ecir2025.eu/wp-content/uploads/2024/03/cropped-ECIR-2025-semplificato-1.png" alt="recsys" width="200">
 </div>
 
 ## Main information
